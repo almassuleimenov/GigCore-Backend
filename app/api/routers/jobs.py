@@ -1,15 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.db import new_session
+from app.db import get_db
 from app.schemas import JobCreate, JobResponse
 from app.services import job_service
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
-
-
-async def get_db():
-    async with new_session() as session:
-        yield session
 
 
 @router.post("/", response_model=JobResponse)

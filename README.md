@@ -3,11 +3,17 @@
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Security](https://img.shields.io/badge/Security-JWT_Auth-red)
 ![Tests](https://img.shields.io/badge/Tests-Pytest-yellow)
 
-**FreelanceHunter** — это современная платформа для поиска исполнителей и заказчиков (аналог Upwork/Freelancehunt), построенная на **Clean Architecture**.
-Проект разработан с упором на производительность (AsyncIO), масштабируемость и безопасность.
+**GigCore** — это современный Backend API для фриланс-биржи, построенный на **Clean Architecture**.
+Проект разработан с упором на асинхронность, безопасность и масштабируемость.
+
+## 🔥 Ключевые возможности (New!)
+- 🔐 **JWT Authentication:** Полная защита API с использованием Access Token.
+- 🛡️ **Secure Password Hashing:** Связка SHA256 + Bcrypt для защиты данных.
+- 👮‍♂️ **Dependency Injection:** Автоматическая валидация юзера при запросах.
+- 🏛 **Clean Architecture:** Четкое разделение слоев (Router -> Service -> DB).
 
 ## 🛠 Технологический стек
 
