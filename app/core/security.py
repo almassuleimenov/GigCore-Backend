@@ -3,15 +3,10 @@ from passlib.context import CryptContext
 import datetime
 import jwt
 from datetime import timezone, timedelta
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
-
+from app.core.config import settings
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES =   int(settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
 def create_access_token(data: dict, expires_data: timedelta | None = None) -> str:
     to_encode = data.copy()
@@ -29,22 +24,12 @@ def create_access_token(data: dict, expires_data: timedelta | None = None) -> st
     return encoded_jwt
 
 
-pwq_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+pwq_context = CryptContext(schemes=["bcrypt"], bcrypt__ident="2b", deprecated="auto")
 
 def get_password_hash(password: str) -> str:
-
-    utf8_password = password.encode("utf_8")
-
-    h = hashlib.sha256(utf8_password).hexdigest()
-
-    return pwq_context.hash(h)
+    return pwq_context.hash(password)
 
 
 def verify_password(password: str, hashed_password: str) -> bool:
-
-    utf8_password = password.encode("utf_8")
-
-    h = hashlib.sha256(utf8_password).hexdigest()
-
-    return pwq_context.verify(h, hashed_password)
+    
+    return pwq_context.verify(password, hashed_password)

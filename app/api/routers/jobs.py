@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import get_db
+from app.models.job import Job
 from app.schemas import JobCreate, JobResponse
 from app.services import job_service
-
+from app.api.deps import get_current_user
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 
 
@@ -15,5 +16,5 @@ async def create_new_job(
 
 
 @router.get("/", response_model=list[JobResponse])
-async def get_jobs_list(db: AsyncSession = Depends(get_db)):
+async def get_jobs_list(db: AsyncSession = Depends(get_db),current_job : Job =Depends(get_current_user)):
     return await job_service.get_all_jobs(db)
