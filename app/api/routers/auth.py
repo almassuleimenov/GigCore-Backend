@@ -6,8 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import get_db
 from app.core import verify_password, create_access_token
 from app.models import User
-from app.api.deps import get_redis , oauth2_scheme
-
+from app.api.deps import get_redis, oauth2_scheme
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -29,13 +28,11 @@ async def login_for_access_token(
 
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/logout")
 
+@router.post("/logout")
 async def logout(
-    token : str = Depends(oauth2_scheme), redis : Redis =  Depends(get_redis)
+    token: str = Depends(oauth2_scheme), redis: Redis = Depends(get_redis)
 ):
-    await redis.set(f"blacklist:{token}","loggeed_out", ex=1800)
-    
-    return {
-        "message" : "Successfully logged out"
-    }
+    await redis.set(f"blacklist:{token}", "loggeed_out", ex=1800)
+
+    return {"message": "Successfully logged out"}

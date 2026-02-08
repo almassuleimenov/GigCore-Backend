@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 🐘 Наша База Данных (PostgreSQL)
   db:
@@ -7,13 +5,14 @@ services:
     container_name: gigcore_db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password  # Пароль как у тебя в .env
-      POSTGRES_DB: gigcore
+      # Docker сам возьмет эти значения из файла .env
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432" # Открываем порт наружу, чтобы ты мог подключиться через DBeaver/код
+      - "${DB_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data # <-- ВАЖНО: Тут хранятся данные
+      - postgres_data:/var/lib/postgresql/data
 
   # ⚡ Наш Кэш (Redis)
   redis:
@@ -21,17 +20,15 @@ services:
     container_name: gigcore_redis
     restart: always
     ports:
-      - "6379:6379" # Открываем порт, чтобы Python мог достучаться
+      - "${REDIS_PORT}:6379"
     volumes:
-      - redis_data:/data # Чтобы кэш/очереди не пропадали при перезагрузке
-    # Проверка здоровья: Docker будет знать, жив ли Redis
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-# Тут мы объявляем "склады" для данных
 volumes:
   postgres_data:
   redis_data:

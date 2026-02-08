@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 DB_URL = os.getenv("DB_URL").replace("postgresql://", "postgresql+asyncpg://")
 
+
 async def clean():
     engine = create_async_engine(DB_URL)
     async with engine.begin() as conn:

@@ -15,5 +15,7 @@ async def register_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/", response_model=list[UserResponse])
-async def get_users_list(db: AsyncSession = Depends(get_db) , current_user : User =  Depends(get_current_user)):
+async def get_users_list(
+    db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)
+):
     return await user_service.get_all_users(db)
